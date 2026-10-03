@@ -1,0 +1,27 @@
+{
+  "name": "image-fitness",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:local": "concurrently \"node scripts/dev-demo.mjs\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server",
+    "test:integration": "node scripts/test-integration.mjs",
+    "check": "npm test && npm run build",
+    "format": "prettier --write client/src server/src server/tests api *.json *.md"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+uploads/
+data/
+.npm-cache/
+.vercel/
+coverage/
+client/dist/
+server/.env
+.env.*
+!.env.example
