@@ -9,7 +9,7 @@ import { apiRoutes } from './routes/api.js';
 export function createApp(config) {
   const app = express();
   app.disable('x-powered-by');
-  if (process.env.VERCEL) app.set('trust proxy', 1);
+  if (process.env.VERCEL || process.env.RENDER) app.set('trust proxy', 1);
   app.use((req, res, next) => {
     req.requestId = randomUUID();
     res.set('X-Request-ID', req.requestId);

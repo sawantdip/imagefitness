@@ -12,7 +12,7 @@ export function getConfig() {
     secret: process.env.JWT_SECRET,
     email: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD,
-    origin: process.env.APP_ORIGIN,
+    origin: process.env.APP_ORIGIN || process.env.RENDER_EXTERNAL_URL,
     port: Number(process.env.PORT || 5000),
   };
   if (

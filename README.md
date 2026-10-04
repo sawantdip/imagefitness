@@ -1,6 +1,6 @@
 # Image Fitness
 
-MERN gym portfolio for Image Fitness, Bhandup (West), Mumbai. React customer website and no-code admin panel, Express API, MongoDB Atlas and GridFS photo storage. Configured for a single Vercel project.
+MERN gym portfolio for Image Fitness, Bhandup (West), Mumbai. React customer website and no-code admin panel, Express API, MongoDB Atlas and GridFS photo storage. Configured for one Render web service deployed through GitHub, serving the frontend and backend on the same URL.
 
 ## Project structure
 
@@ -23,7 +23,8 @@ server/
     validation/     # Request schemas
   tests/            # Security and MongoDB integration tests
 api/index.js        # Vercel function adapter
-vercel.json         # Hosting configuration
+render.yaml         # Render service build, startup and environment configuration
+vercel.json         # Legacy Vercel configuration (unused on Render)
 ```
 
 ## Local setup
@@ -43,7 +44,7 @@ Update gym copy, hero photo, stats, training services, trainers, equipment, cura
 
 The **Branches** tab manages each location's name, address, phone, hours, Sunday timings, description, optional photo and Google Maps link. Public branch cards generate directions automatically when no map link is set. Visitors can select their preferred branch in the enquiry form; the admin sees it with the message. Removing every branch hides the branch section and selector. Bhandup and Ghatkopar locality entries are included; fill exact addresses and approved contact details before launch.
 
-Photos must be JPG, PNG or WebP, under 3 MB. They are decoded, resized, converted to WebP and stored in MongoDB GridFS, so Vercel redeploys do not remove them. No local upload disk is needed.
+Photos must be JPG, PNG or WebP, under 3 MB. They are decoded, resized, converted to WebP and stored in MongoDB GridFS, so Render redeploys do not remove them. No local upload disk is needed.
 
 ## Commands
 
@@ -61,6 +62,6 @@ For local integration testing, set `TEST_MONGODB_URI` to a test MongoDB instance
 
 ## Deploy
 
-Follow [DEPLOYMENT.md](./DEPLOYMENT.md) for Vercel settings, Atlas setup, environment variables and live verification. Never commit `.env` or expose secrets through `VITE_` variables.
+Follow [DEPLOYMENT.md](./DEPLOYMENT.md) for Render/GitHub settings, Atlas setup, environment variables and live verification. Never commit `.env` or expose secrets through `VITE_` variables.
 
 Sample names, photos, reviews, statistics, phone and hours need replacement before launch. Customer browsing/enquiries are public; reviews are curated by the admin. Memberships, payments and booking are outside this portfolio's scope.
