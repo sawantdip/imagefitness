@@ -1,4 +1,42 @@
-# Render deployment through GitHub
+# Render static frontend migration
+
+Keep the existing Web Service at `https://imagefitness.onrender.com` running. It remains the API, admin, MongoDB and photo backend. Do not create another backend or change its secrets.
+
+Push these changes to GitHub. If your existing service is managed by a Blueprint, sync `render.yaml` to add `imagefitness-frontend`. Otherwise create **New > Static Site** from the same repository with these settings:
+
+| Setting | Value |
+| --- | --- |
+| Branch | `main` |
+| Root directory | Leave empty |
+| Build command | `npm ci --include=dev && npm run build:static` |
+| Publish directory | `client/dist` |
+| NODE_VERSION | `22.19.0` |
+| BACKEND_ORIGIN | `https://imagefitness.onrender.com` |
+
+Add these **Redirects/Rewrites in this order** when creating manually:
+
+| Source | Destination | Action |
+| --- | --- | --- |
+| `/api/*` | `https://imagefitness.onrender.com/api/*` | Rewrite |
+| `/*` | `/index.html` | Rewrite |
+
+Copy the security and caching `headers` in `render.yaml` into the Static Site dashboard for manual setup. API requests stay on the frontend origin, preserving HttpOnly admin cookies. Do not use Redirect for the API or call the backend directly from the browser.
+
+Once Render assigns the frontend URL, set **existing Web Service > Environment > APP_ORIGIN** to that exact HTTPS origin without a trailing slash, then redeploy the backend. Keep database/admin secrets unchanged and only on the backend. After this switch, the old backend website remains readable, but its login/write requests are rejected by the origin check.
+
+The static build fetches real public content and copies uploaded photos into static files. It fails if downloads fail instead of publishing sample or incomplete data. Public content displays immediately while the backend wakes up; live content refreshes in the background. Admin waits for live content before edits. Enquiries/admin still require the backend.
+
+**After changing public content/photos in admin, deploy the Static Site again** to refresh its fallback snapshot. Saving updates MongoDB immediately but does not trigger a frontend build. Generated snapshots/photos are gitignored.
+
+Before moving your domain, verify public content/photos, direct `/admin` refresh, login/logout, save, upload and enquiry submission. Confirm API responses are JSON/images and admin cookies work through the rewrite. After 15+ minutes without backend traffic, open the frontend in a fresh session and check content/photos display before the API wakes up.
+
+Then connect the custom domain to the Static Site and update backend `APP_ORIGIN` to the final domain. Keep the backend `onrender.com` URL for API proxying and build snapshots. Recheck writes after switching the domain.
+
+Local verification: `npm run check`, `npm run test:integration`; set `BACKEND_ORIGIN=https://imagefitness.onrender.com` before `npm run build:static`.
+
+References: [Render Static Sites](https://render.com/docs/static-sites), [Rewrites](https://render.com/docs/redirects-rewrites).
+
+# Original combined deployment (before migration)
 
 Deploy one Render Node Web Service from https://github.com/sawantdip/imagefitness. The repository keeps frontend code in `client/` and backend code in `server/`; Express serves the built frontend and API on one origin.
 

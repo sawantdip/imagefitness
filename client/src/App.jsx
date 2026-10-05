@@ -3,7 +3,8 @@ import { api } from './services/api.js';
 import Website from './pages/Website.jsx';
 const Admin = lazy(() => import('./pages/Admin.jsx'));
 export default function App() {
-  const [content, setContent] = useState(null),
+  const isAdmin = location.pathname.startsWith('/admin');
+  const [content, setContent] = useState(isAdmin ? null : __SITE_SNAPSHOT__),
     [error, setError] = useState('');
   function loadContent() {
     setError('');

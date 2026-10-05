@@ -1,6 +1,6 @@
 # Image Fitness
 
-MERN gym portfolio for Image Fitness, Bhandup (West), Mumbai. React customer website and no-code admin panel, Express API, MongoDB Atlas and GridFS photo storage. Configured for one Render web service deployed through GitHub, serving the frontend and backend on the same URL.
+MERN gym portfolio for Image Fitness, Bhandup (West), Mumbai. React customer website and no-code admin panel, Express API, MongoDB Atlas and GridFS photo storage. Configured for a Render Static Site frontend with a real content/photo snapshot and the existing Web Service backend through an API rewrite. Combined hosting remains supported during migration.
 
 ## Project structure
 
@@ -23,7 +23,7 @@ server/
     validation/     # Request schemas
   tests/            # Security and MongoDB integration tests
 api/index.js        # Vercel function adapter
-render.yaml         # Render service build, startup and environment configuration
+render.yaml         # Existing backend plus static frontend configuration
 vercel.json         # Legacy Vercel configuration (unused on Render)
 ```
 
@@ -51,6 +51,7 @@ Photos must be JPG, PNG or WebP, under 3 MB. They are decoded, resized, converte
 ```sh
 npm run dev      # Both client and server
 npm run build    # Client production build
+npm run build:static # Public snapshot + build (requires BACKEND_ORIGIN)
 npm start        # Standalone Node server serving client/dist
 npm test         # Validation/auth tests; integration test if TEST_MONGODB_URI is set
 npm run test:integration # Temporary local MongoDB; first run downloads its binary

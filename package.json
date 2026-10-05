@@ -14,6 +14,7 @@
     "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
     "dev:local": "concurrently \"node scripts/dev-demo.mjs\" \"npm run dev -w client\"",
     "build": "npm run build -w client",
+    "build:static": "node scripts/build-static.mjs",
     "start": "npm run start -w server",
     "test": "npm run test -w server",
     "test:integration": "node scripts/test-integration.mjs",

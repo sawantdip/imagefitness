@@ -10,3 +10,5 @@ client/dist/
 server/.env
 .env.*
 !.env.example
+client/.site-snapshot.json
+client/public/site-images/
